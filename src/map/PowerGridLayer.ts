@@ -216,17 +216,19 @@ export class PowerGridLayer extends Container {
     const g = this._dotGfx;
     g.clear();
 
-    // Collect dot positions per colour for batched fills
-    const buckets = new Map<number, { r: number; pts: Array<[number, number]> }>();
+    // Collect dot positions per colour AND radius for batched fills
+    // Use composite key: "color:radius"
+    const buckets = new Map<string, { color: number; r: number; pts: Array<[number, number]> }>();
 
     for (const edge of this._edges) {
       edge.phase = (edge.phase + edge.speed * dt) % 1;
       if (!edge.active) continue;
 
-      let bucket = buckets.get(edge.dotColor);
+      const bucketKey = `${edge.dotColor}:${edge.dotRadius}`;
+      let bucket = buckets.get(bucketKey);
       if (!bucket) {
-        bucket = { r: edge.dotRadius, pts: [] };
-        buckets.set(edge.dotColor, bucket);
+        bucket = { color: edge.dotColor, r: edge.dotRadius, pts: [] };
+        buckets.set(bucketKey, bucket);
       }
 
       const spacing = 1 / edge.dotsPerLine;
@@ -239,7 +241,7 @@ export class PowerGridLayer extends Container {
       }
     }
 
-    for (const [color, { r, pts }] of buckets) {
+    for (const [, { color, r, pts }] of buckets) {
       for (const [x, y] of pts) {
         g.circle(x, y, r);
       }

@@ -119,7 +119,7 @@ export function generateCityPowerLines(
         const lineId = `${target.id}_to_city_${city.id}`;
         newLines.push({
             id: lineId,
-            from: target.id,
+            from: String(target.id),
             to: String(city.id),
             voltage,
             status: 'active',

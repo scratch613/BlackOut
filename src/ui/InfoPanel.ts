@@ -6,11 +6,11 @@ export type PanelContent =
   | { type: 'infra'; obj: InfrastructureObject };
 
 const INFRA_TYPE_LABELS: Record<string, string> = {
-  nuclear:    'Nuclear Power Plant',
-  hydro:      'Hydro Power Plant',
-  thermal:    'Thermal Power Plant',
+  nuclear: 'Nuclear Power Plant',
+  hydro: 'Hydro Power Plant',
+  thermal: 'Thermal Power Plant',
   substation: 'Substation',
-  chp:        'Combined Heat & Power',
+  chp: 'Combined Heat & Power',
 };
 
 const CSS = `
@@ -145,8 +145,8 @@ export class InfoPanel {
   show(content: PanelContent): void {
     switch (content.type) {
       case 'region': this._renderRegion(content.state); break;
-      case 'city':   this._renderCity(content.city);    break;
-      case 'infra':  this._renderInfra(content.obj);    break;
+      case 'city': this._renderCity(content.city); break;
+      case 'infra': this._renderInfra(content.obj); break;
     }
     this._el.classList.remove('hidden');
   }
@@ -169,11 +169,11 @@ export class InfoPanel {
     const depClass = s.depression < 30 ? 'ok' : s.depression < 60 ? 'warn' : 'bad';
 
     this._bodyEl.appendChild(this._rows([
-      ['Population',  fmt(s.population) + ' units', ''],
-      ['Budget',      '₴' + fmt(s.budget), 'neon'],
-      ['Depression',  s.depression + '%', depClass],
-      ['Power',       s.hasPower ? '✓ Online' : '✗ Offline', s.hasPower ? 'ok' : 'bad'],
-      ['Heat',        s.hasHeat  ? '✓ Online' : '✗ Offline', s.hasHeat  ? 'ok' : 'bad'],
+      ['Population', fmt(s.population) + ' units', ''],
+      ['Budget', '₴' + fmt(s.budget), 'neon'],
+      ['Depression', s.depression + '%', depClass],
+      ['Power', s.hasPower ? '✓ Online' : '✗ Offline', s.hasPower ? 'ok' : 'bad'],
+      ['Heat', s.hasHeat ? '✓ Online' : '✗ Offline', s.hasHeat ? 'ok' : 'bad'],
     ]));
   }
 
@@ -184,8 +184,8 @@ export class InfoPanel {
 
     this._bodyEl.appendChild(this._rows([
       ['Population', fmt(c.population), 'neon'],
-      ['Tier',       '★'.repeat(4 - c.tier) + '☆'.repeat(c.tier - 1), ''],
-      ['Lat / Lon',  `${c.lat.toFixed(3)}° / ${c.lon.toFixed(3)}°`, ''],
+      ['Tier', '★'.repeat(4 - c.tier) + '☆'.repeat(c.tier - 1), ''],
+      ['Lat / Lon', `${c.lat.toFixed(3)}° / ${c.lon.toFixed(3)}°`, ''],
     ]));
   }
 
@@ -198,9 +198,9 @@ export class InfoPanel {
     const statusLabel = o.status.charAt(0).toUpperCase() + o.status.slice(1);
 
     const rows: [string, string, string][] = [
-      ['Type',     INFRA_TYPE_LABELS[o.type] ?? o.type, ''],
-      ['Capacity', o.capacity ? fmt(o.capacity) + ' MW' : '—', 'neon'],
-      ['Status',   statusLabel, statusClass],
+      ['Type', INFRA_TYPE_LABELS[o.type] ?? o.type, ''],
+      ['Capacity', o.capacity != null ? fmt(o.capacity) + ' MW' : '—', 'neon'],
+      ['Status', statusLabel, statusClass],
     ];
     if (o.voltage) rows.push(['Voltage', o.voltage, '']);
     if (o.heat !== undefined) rows.push(['Provides Heat', o.heat ? 'Yes' : 'No', o.heat ? 'ok' : '']);

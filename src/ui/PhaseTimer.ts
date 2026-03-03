@@ -4,14 +4,14 @@ import type { GameLoop } from '@/game/GameLoop';
 import type { GamePhase } from '@/types';
 
 const COLOR = {
-  DAY_LABEL:   0xffd700,
+  DAY_LABEL: 0xffd700,
   NIGHT_LABEL: 0x7b68ee,
-  BAR_BG:      0x222244,
-  BAR_FILL:    0x7b68ee,
-  BUTTON_BG:   0x1a3a5c,
+  BAR_BG: 0x222244,
+  BAR_FILL: 0x7b68ee,
+  BUTTON_BG: 0x1a3a5c,
   BUTTON_TEXT: 0xffd700,
   DAY_COUNTER: 0xaaaacc,
-  PANEL_BG:    0x0d1120,
+  PANEL_BG: 0x0d1120,
 };
 
 const NIGHT_TOTAL = 30; // must match GameLoop constant
@@ -127,9 +127,9 @@ export class PhaseTimer extends Container {
       this._barFill.visible = true;
 
       // Update bar fill
-      const ratio = secondsLeft / NIGHT_TOTAL;
+      const ratio = Math.min(1, Math.max(0, secondsLeft / NIGHT_TOTAL));
       this._barFill.clear();
-      this._barFill.rect(12, 62, Math.max(0, 180 * ratio), 10);
+      this._barFill.rect(12, 62, 180 * ratio, 10);
       this._barFill.fill({ color: COLOR.BAR_FILL, alpha: 0.9 });
 
       // Show seconds

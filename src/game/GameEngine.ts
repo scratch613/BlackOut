@@ -2,7 +2,7 @@ import { Application } from 'pixi.js';
 
 import { processMonthlyBudgetDistribution } from '@/game/BudgetManager';
 import { GameLoop } from '@/game/GameLoop';
-import { buildInitialState, loadState, saveState } from '@/game/GameState';
+import { buildInitialState, checkCrashRecovery, loadState, restoreGameState, saveCheckpoint, saveGameState, saveState } from '@/game/GameState';
 import { generateCityPowerLines } from '@/map/CityPowerConnector';
 import { MapRenderer } from '@/map/MapRenderer';
 import { BudgetPanel } from '@/ui/BudgetPanel';
@@ -28,12 +28,24 @@ export class GameEngine {
   private _budgetPanel: BudgetPanel | null = null;
   private _state: AppGameState | null = null;
   private _nightSecondsLeft = 0;
+  private _onResize: (() => void) | null = null;
 
   constructor() {
     this._app = new Application();
   }
 
   async start(container: HTMLElement): Promise<void> {
+    // 0. Check for crash recovery
+    const recoveryInfo = checkCrashRecovery();
+    if (recoveryInfo) {
+      console.warn('[GameEngine] Crash recovery detected. Attempting to restore checkpoint...');
+      const recovered = restoreGameState(recoveryInfo.checkpointId);
+      if (recovered) {
+        console.log('[GameEngine] Successfully recovered from checkpoint');
+        // TODO: Show recovery UI to user and replay queued DAY actions if any
+      }
+    }
+
     // 1. Init PixiJS
     await this._app.init({
       backgroundColor: 0x0a0e1a,
@@ -108,7 +120,12 @@ export class GameEngine {
     loop.onPhaseChange = (phase) => {
       state.phase = phase;
       state.globalParams.phase = phase;
-      if (phase === 'night') this._nightSecondsLeft = 30;
+      if (phase === 'night') {
+        this._nightSecondsLeft = 30;
+        // Create checkpoint before entering NIGHT phase
+        const checkpointId = saveCheckpoint(state);
+        state.globalParams.checkpointId = checkpointId;
+      }
     };
 
     loop.onNightTick = (secondsLeft) => {
@@ -126,8 +143,27 @@ export class GameEngine {
         console.log(`[GameEngine] Monthly budget distribution on day ${report.day}`);
       }
 
+      // Save game state with transactional API and error handling
       console.log(`[GameEngine] Day ${report.day} begins — auto-saving...`);
-      saveState(state);
+      try {
+        const checkpointId = state.globalParams.checkpointId as string | undefined;
+        const success = saveGameState(state, checkpointId);
+        if (!success) {
+          console.error('[GameEngine] Failed to save game state. User notification recommended.');
+          // TODO: Show error notification to user
+        }
+      } catch (error) {
+        console.error('[GameEngine] Error during save:', error);
+        // Rollback: restore from last checkpoint if save failed
+        if (state.globalParams.checkpointId) {
+          const checkpoint = state.globalParams.checkpointId as string;
+          const restored = restoreGameState(checkpoint);
+          if (restored) {
+            Object.assign(state, restored);
+            console.log('[GameEngine] Rolled back to checkpoint after save error');
+          }
+        }
+      }
     };
 
     // 7. Phase timer UI
@@ -145,11 +181,12 @@ export class GameEngine {
     });
 
     // 9. Resize handler
-    window.addEventListener('resize', () => {
+    this._onResize = () => {
       if (this._map) {
         this._map.resize(this._app.screen.width, this._app.screen.height);
       }
-    });
+    };
+    window.addEventListener('resize', this._onResize);
   }
 
   private async _fetchJson<T>(path: string): Promise<T> {
@@ -159,6 +196,10 @@ export class GameEngine {
   }
 
   destroy(): void {
+    if (this._onResize) {
+      window.removeEventListener('resize', this._onResize);
+      this._onResize = null;
+    }
     this._map?.destroy();
     this._timer?.destroy();
     this._panel?.destroy();

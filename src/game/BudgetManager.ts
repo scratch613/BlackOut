@@ -127,8 +127,6 @@ export function distributeCountryBudget(
 
 /**
  * Calculate monthly foreign budget income
-/**
- * Calculate monthly foreign budget income
  * For now: formula is undefined, returns 0
  * Can be updated with actual formula later
  */

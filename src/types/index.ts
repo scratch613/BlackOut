@@ -105,6 +105,7 @@ export interface GlobalParams {
   depression: number;
   day: number;
   phase: GamePhase;
+  checkpointId?: string;        // ID of last checkpoint before entering NIGHT phase (for recovery)
 }
 
 export interface AppGameState {

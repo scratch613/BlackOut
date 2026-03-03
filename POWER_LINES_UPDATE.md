@@ -15,8 +15,8 @@ A utility module that:
 - Finds the closest power source for each city
 - Generates synthetic PowerLine objects connecting cities to nearest sources
 - Assigns appropriate voltage levels based on infrastructure type:
-  - **750kV**: Nuclear and thermal plants (major generation)
-  - **330kV**: Substations and hydro plants (distribution)
+  - **750kV**: Nuclear, thermal, and hydro plants (major generation)
+  - **330kV**: Substations (distribution)
   - **chp**: CHP facilities (district heating)
 
 ### 2. Updated: `src/game/GameEngine.ts`

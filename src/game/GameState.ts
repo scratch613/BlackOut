@@ -8,6 +8,154 @@ import type {
 } from '@/types';
 
 const SAVE_KEY = 'rl_save';
+const CHECKPOINT_KEY = 'rl_checkpoint';
+const CHECKPOINT_TIMESTAMP_KEY = 'rl_checkpoint_timestamp';
+const TRANSACTION_KEY = 'rl_transaction';
+
+// ---------------------------------------------------------------------------
+// Transactional Save API
+// ---------------------------------------------------------------------------
+
+/**
+ * Create a checkpoint with a unique ID before entering NIGHT phase.
+ * Saves current state to localStorage with timestamp for recovery.
+ */
+export function saveCheckpoint(state: AppGameState): string {
+  try {
+    const checkpointId = `checkpoint_${Date.now()}`;
+    const checkpointData = {
+      id: checkpointId,
+      state: JSON.stringify(state),
+      timestamp: Date.now(),
+    };
+
+    localStorage.setItem(CHECKPOINT_KEY, JSON.stringify(checkpointData));
+    localStorage.setItem(CHECKPOINT_TIMESTAMP_KEY, checkpointData.timestamp.toString());
+
+    console.log(`[GameState] Checkpoint saved: ${checkpointId}`);
+    return checkpointId;
+  } catch (error) {
+    if (error instanceof Error && error.name === 'QuotaExceededError') {
+      console.error('[GameState] QuotaExceededError: localStorage full. Attempting fallback to IndexedDB...');
+      // Fallback: attempt IndexedDB or notify user
+      _fallbackSaveToIndexedDB(state);
+    }
+    throw error;
+  }
+}
+
+/**
+ * Restore a checkpoint by checkpointId.
+ * Used for recovery from crash or NIGHT simulation rollback.
+ */
+export function restoreGameState(checkpointId: string): AppGameState | null {
+  try {
+    const raw = localStorage.getItem(CHECKPOINT_KEY);
+    if (!raw) {
+      console.warn(`[GameState] Checkpoint ${checkpointId} not found`);
+      return null;
+    }
+
+    const checkpointData = JSON.parse(raw) as { id: string; state: string; timestamp: number };
+    if (checkpointData.id !== checkpointId) {
+      console.warn(`[GameState] Checkpoint ID mismatch: expected ${checkpointId}, got ${checkpointData.id}`);
+      return null;
+    }
+
+    const state = JSON.parse(checkpointData.state) as AppGameState;
+    console.log(`[GameState] Restored from checkpoint: ${checkpointId}`);
+    return state;
+  } catch (error) {
+    console.error('[GameState] Error restoring checkpoint:', error);
+    return null;
+  }
+}
+
+/**
+ * Save game state to a transaction key during NIGHT simulation.
+ * Only commits to main save if successful.
+ */
+export function saveGameState(state: AppGameState, checkpointId?: string): boolean {
+  try {
+    const transactionData = {
+      state: JSON.stringify(state),
+      checkpointId: checkpointId || null,
+      timestamp: Date.now(),
+    };
+
+    // Write to transaction key first
+    localStorage.setItem(TRANSACTION_KEY, JSON.stringify(transactionData));
+
+    // Commit to main save
+    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+
+    // Clear transaction key on success
+    localStorage.removeItem(TRANSACTION_KEY);
+
+    console.log(`[GameState] Game state saved successfully`);
+    return true;
+  } catch (error) {
+    if (error instanceof Error && error.name === 'QuotaExceededError') {
+      console.error('[GameState] QuotaExceededError during save. Attempting IndexedDB fallback...');
+      _fallbackSaveToIndexedDB(state);
+      return false;
+    }
+    console.error('[GameState] Error saving game state:', error);
+    return false;
+  }
+}
+
+/**
+ * Check if a NIGHT simulation was in progress at startup.
+ * Returns the checkpoint timestamp if recovery needed, null otherwise.
+ */
+export function checkCrashRecovery(): { lastCheckpointTimestamp: number; checkpointId: string } | null {
+  try {
+    const transactionRaw = localStorage.getItem(TRANSACTION_KEY);
+    const checkpointRaw = localStorage.getItem(CHECKPOINT_KEY);
+    const timestampRaw = localStorage.getItem(CHECKPOINT_TIMESTAMP_KEY);
+
+    if (transactionRaw && checkpointRaw && timestampRaw) {
+      const checkpointData = JSON.parse(checkpointRaw) as { id: string; timestamp: number };
+      console.warn('[GameState] Crash recovery detected. NIGHT was in progress.');
+      return {
+        lastCheckpointTimestamp: parseInt(timestampRaw),
+        checkpointId: checkpointData.id,
+      };
+    }
+
+    return null;
+  } catch (error) {
+    console.error('[GameState] Error checking crash recovery:', error);
+    return null;
+  }
+}
+
+/**
+ * Fallback save to IndexedDB when localStorage quota is exceeded.
+ */
+function _fallbackSaveToIndexedDB(state: AppGameState): void {
+  const dbRequest = indexedDB.open('VibeGameDB', 1);
+
+  dbRequest.onerror = () => {
+    console.error('[GameState] IndexedDB open failed. User notification needed.');
+  };
+
+  dbRequest.onupgradeneeded = (event: any) => {
+    const db = event.target.result;
+    if (!db.objectStoreNames.contains('saves')) {
+      db.createObjectStore('saves', { keyPath: 'id' });
+    }
+  };
+
+  dbRequest.onsuccess = (event: any) => {
+    const db = event.target.result;
+    const transaction = db.transaction(['saves'], 'readwrite');
+    const store = transaction.objectStore('saves');
+    store.put({ id: 'fallback_save', state, timestamp: Date.now() });
+    console.log('[GameState] Fallback save to IndexedDB successful');
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -151,7 +299,7 @@ export function loadState(): AppGameState | null {
     if (Array.isArray(parsed.regions)) {
       parsed.regions = parsed.regions.map((region) => ({
         ...region,
-        isOccupied: OCCUPIED_REGIONS.has(region.id),
+        isOccupied: region.isOccupied ?? OCCUPIED_REGIONS.has(region.id),
       }));
     }
 
