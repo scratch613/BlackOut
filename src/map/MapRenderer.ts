@@ -2,6 +2,7 @@ import { Container, Graphics, Text, TextStyle } from 'pixi.js';
 import type { Ticker } from 'pixi.js';
 
 import { project, UKRAINE_BOUNDS } from '@/map/Projection';
+import { getSeparatedInfrastructurePositions } from '@/map/NodeSeparation';
 import { PowerGridLayer } from '@/map/PowerGridLayer';
 import type {
   City,
@@ -37,6 +38,22 @@ const COLOR = {
     damaged: 0xff2222,
   },
 } as const;
+
+const EXPLICIT_UNOCCUPIED_CITY_NAMES = new Set([
+  'енергодар',
+  'південноукраїнськ',
+]);
+
+const EXPLICIT_UNOCCUPIED_INFRA_IDS = new Set([
+  'npp_zapo',
+  'npp_south',
+  'sub750_pivdennoukr',
+]);
+
+const ALWAYS_LABEL_INFRA_IDS = new Set([
+  'npp_south',
+  'npp_zapo',
+]);
 
 // ---------------------------------------------------------------------------
 // Helper: flatten polygon rings from a feature's geometry
@@ -124,6 +141,14 @@ export class MapRenderer extends Container {
 
   constructor() {
     super();
+    this.sortableChildren = true;
+    this._riverLayer.zIndex = 0;
+    this._borderLayer.zIndex = 10;
+    this._oblastLayer.zIndex = 20;
+    this._powerGridLayer.zIndex = 30;
+    this._cityLayer.zIndex = 40;
+    this._infraLayer.zIndex = 100;
+
     this.addChild(this._riverLayer);
     this.addChild(this._borderLayer);
     this.addChild(this._oblastLayer);
@@ -314,6 +339,13 @@ export class MapRenderer extends Container {
   private _drawInfrastructure(infra: InfrastructureObject[]): void {
     const data = this._data;
     const occupiedZones = data?.occupiedZones?.features ?? [];
+    const displacedInfraPositions = getSeparatedInfrastructurePositions(
+      infra,
+      data?.cities ?? [],
+      this._bounds,
+      this._w,
+      this._h,
+    );
 
     const isInOccupiedZone = (lat: number, lon: number): boolean => {
       for (const feat of occupiedZones) {
@@ -323,27 +355,48 @@ export class MapRenderer extends Container {
     };
 
     for (const obj of infra) {
-      const { x, y } = this._proj(obj.lat, obj.lon);
-      const isOccupiedArea = isInOccupiedZone(obj.lat, obj.lon);
+      const displaced = displacedInfraPositions.get(obj.id);
+      const { x, y } = displaced ?? this._proj(obj.lat, obj.lon);
+      const isExplicitlyUnoccupied = EXPLICIT_UNOCCUPIED_INFRA_IDS.has(obj.id);
+      const isOccupiedArea = !isExplicitlyUnoccupied && isInOccupiedZone(obj.lat, obj.lon);
 
       const isDamaged = obj.status === 'damaged' || obj.status === 'destroyed';
       const color = isDamaged
         ? COLOR.INFRA.damaged
         : (isOccupiedArea ? COLOR.OCCUPIED_BORDER : (COLOR.INFRA[obj.type] ?? COLOR.INFRA.thermal));
+      const isNuclear = obj.type === 'nuclear';
+      const hitRadius = isNuclear ? 14 : 10;
+      const dotRadius = isNuclear ? 6 : 4;
 
       // Container positioned at dot center; circles drawn at (0,0) so
       // scale pivots correctly around the dot, not the canvas origin.
       const wrapper = new Container();
       wrapper.x = x;
       wrapper.y = y;
+      wrapper.zIndex = 1000;
 
       const g = new Graphics();
-      g.circle(0, 0, 10);                              // invisible hit area
+      g.circle(0, 0, hitRadius);                       // invisible hit area
       g.fill({ color: 0xffffff, alpha: 0 });
-      g.circle(0, 0, 4);                               // visual dot
+      g.circle(0, 0, dotRadius);                       // visual dot
       g.fill({ color, alpha: isOccupiedArea ? 0.7 : 0.9 });
       g.stroke({ width: 1, color: 0xffffff, alpha: 0.4 });
       wrapper.addChild(g);
+
+      if (ALWAYS_LABEL_INFRA_IDS.has(obj.id)) {
+        const label = new Text({
+          text: obj.name,
+          style: new TextStyle({
+            fontSize: 10,
+            fill: 0xbaffff,
+            fontFamily: 'monospace',
+            stroke: { color: 0x00121a, width: 3 },
+          }),
+        });
+        label.x = dotRadius + 4;
+        label.y = -6;
+        wrapper.addChild(label);
+      }
 
       wrapper.eventMode = isOccupiedArea ? 'none' : 'static';
       wrapper.cursor = isOccupiedArea ? 'not-allowed' : 'pointer';
@@ -376,7 +429,9 @@ export class MapRenderer extends Container {
     };
 
     for (const city of cities) {
-      const isOccupiedCity = isInOccupiedZone(city.lat, city.lon);
+      const normalizedName = city.name.trim().toLowerCase();
+      const isExplicitlyUnoccupied = EXPLICIT_UNOCCUPIED_CITY_NAMES.has(normalizedName);
+      const isOccupiedCity = !isExplicitlyUnoccupied && isInOccupiedZone(city.lat, city.lon);
       const { x, y } = this._proj(city.lat, city.lon);
       const radius = isOccupiedCity ? 4 : 4 + (city.population / MAX_POP) * 16;
 

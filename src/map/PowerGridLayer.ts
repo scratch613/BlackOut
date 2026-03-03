@@ -2,6 +2,7 @@ import { Container, Graphics } from 'pixi.js';
 import type { Ticker } from 'pixi.js';
 
 import { project, UKRAINE_BOUNDS } from '@/map/Projection';
+import { getSeparatedInfrastructurePositions } from '@/map/NodeSeparation';
 import type {
   City,
   FeatureCollection,
@@ -31,6 +32,17 @@ const VOLT: Record<PowerLineVoltage, {
   '330kV': { lineColor: 0x112255, lineColorOff: 0x09111f, lineWidth: 1.5, dotColor: 0x0088cc, dotRadius: 2.0, speed: 0.00015, dotsPerLine: 2 },
   'chp': { lineColor: 0x3a1a08, lineColorOff: 0x160a03, lineWidth: 1.0, dotColor: 0xff8844, dotRadius: 1.5, speed: 0.00010, dotsPerLine: 2 },
 };
+
+const EXPLICIT_UNOCCUPIED_CITY_NAMES = new Set([
+  'енергодар',
+  'південноукраїнськ',
+]);
+
+const EXPLICIT_UNOCCUPIED_INFRA_IDS = new Set([
+  'npp_zapo',
+  'npp_south',
+  'sub750_pivdennoukr',
+]);
 
 // ---------------------------------------------------------------------------
 // Internal edge representation (screen-space, ready to render)
@@ -148,6 +160,14 @@ export class PowerGridLayer extends Container {
     const citiesById = new Map<string | number, City>();
     for (const city of cities) citiesById.set(city.id, city);
 
+    const displacedInfraPositions = getSeparatedInfrastructurePositions(
+      infra,
+      cities,
+      bounds,
+      w,
+      h,
+    );
+
     const occupiedZoneFeatures = this._occupiedZones?.features ?? [];
 
     const isInOccupiedZone = (lat: number, lon: number): boolean => {
@@ -155,6 +175,14 @@ export class PowerGridLayer extends Container {
         if (pointInFeature(lon, lat, feat as any)) return true;
       }
       return false;
+    };
+
+    const isExplicitlyUnoccupied = (node: InfrastructureObject | City): boolean => {
+      const nodeId = String(node.id);
+      if (EXPLICIT_UNOCCUPIED_INFRA_IDS.has(nodeId)) return true;
+
+      const normalizedName = node.name.trim().toLowerCase();
+      return EXPLICIT_UNOCCUPIED_CITY_NAMES.has(normalizedName);
     };
 
     this._edges = [];
@@ -172,8 +200,12 @@ export class PowerGridLayer extends Container {
       const dst = dstInfra || dstCity;
       if (!dst) continue;
 
-      const p1 = project(src.lat, src.lon, bounds, w, h);
-      const p2 = project(dst.lat, dst.lon, bounds, w, h);
+      const p1 = srcInfra
+        ? (displacedInfraPositions.get(srcInfra.id) ?? project(src.lat, src.lon, bounds, w, h))
+        : project(src.lat, src.lon, bounds, w, h);
+      const p2 = dstInfra
+        ? (displacedInfraPositions.get(dstInfra.id) ?? project(dst.lat, dst.lon, bounds, w, h))
+        : project(dst.lat, dst.lon, bounds, w, h);
 
       const style = VOLT[line.voltage];
 
@@ -182,8 +214,8 @@ export class PowerGridLayer extends Container {
       // For cities: assume active (they don't have status field)
       const srcActive = 'status' in src ? src.status === 'active' : true;
       const dstActive = 'status' in dst ? dst.status === 'active' : true;
-      const srcOccupied = isInOccupiedZone(src.lat, src.lon);
-      const dstOccupied = isInOccupiedZone(dst.lat, dst.lon);
+      const srcOccupied = !isExplicitlyUnoccupied(src) && isInOccupiedZone(src.lat, src.lon);
+      const dstOccupied = !isExplicitlyUnoccupied(dst) && isInOccupiedZone(dst.lat, dst.lon);
       const active =
         line.status === 'active' &&
         srcActive &&

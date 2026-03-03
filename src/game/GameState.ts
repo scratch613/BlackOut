@@ -4,6 +4,7 @@ import type {
   GlobalParams,
   InfrastructureObject,
   OblastFeature,
+  PowerLine,
   RegionState,
 } from '@/types';
 
@@ -240,7 +241,106 @@ const REGIONAL_POPULATIONS: Record<string, number> = {
 };
 
 // ---------------------------------------------------------------------------
-// Build initial state
+// Calculate power connectivity
+// ---------------------------------------------------------------------------
+
+/**
+ * Calculate which regions have power based on active infrastructure connectivity.
+ * A region has power if it has:
+ * 1. At least one active power source (nuclear, hydro, thermal, chp), OR
+ * 2. At least one active substation with connection to a power source
+ * Occupied infrastructure does not count toward power availability.
+ */
+export function calculatePowerConnectivity(
+  regions: RegionState[],
+  infrastructure: InfrastructureObject[],
+  powerLines: PowerLine[],
+  oblastFeatures: OblastFeature[],
+): void {
+  // Build adjacency map: which regions are directly connected to power sources
+  const regionsToPowerSources = new Map<string, InfrastructureObject[]>();
+
+  // Check each infrastructure object
+  for (const infra of infrastructure) {
+    // Skip occupied infrastructure
+    if (infra.status === 'occupied') continue;
+
+    // Skip damaged/destroyed
+    if (infra.status === 'damaged' || infra.status === 'destroyed') continue;
+
+    // Find which region this infrastructure is in
+    const region = findClosestOblast(infra.lat, infra.lon, oblastFeatures);
+    if (!region) continue;
+
+    const regionId = region.properties.id;
+
+    // Generation sources: nuclear, hydro, thermal, chp
+    const isGenerationSource = ['nuclear', 'hydro', 'thermal', 'chp'].includes(infra.type);
+
+    if (isGenerationSource) {
+      if (!regionsToPowerSources.has(regionId)) {
+        regionsToPowerSources.set(regionId, []);
+      }
+      regionsToPowerSources.get(regionId)!.push(infra);
+    }
+  }
+
+  // A region has power if:
+  // 1. It contains at least one active generation source, OR
+  // 2. It contains a substation connected to a region with generation
+  const regionsWithGeneration = new Set(regionsToPowerSources.keys());
+
+  // Use BFS to find all regions reachable from generation regions through substations
+  const regionsWithPower = new Set(regionsWithGeneration);
+  const queue = Array.from(regionsWithGeneration);
+  const visited = new Set(regionsWithGeneration);
+
+  while (queue.length > 0) {
+    const currentRegionId = queue.shift()!;
+
+    // Find all power lines connected to this region
+    for (const line of powerLines) {
+      if (line.status === 'damaged' || line.status === 'inactive') continue;
+
+      // Find infrastructure endpoints
+      const fromInfra = infrastructure.find(i => i.id === line.from);
+      const toInfra = infrastructure.find(i => i.id === line.to);
+
+      if (!fromInfra || !toInfra) continue;
+      if (fromInfra.status === 'occupied' || toInfra.status === 'occupied') continue;
+      if (fromInfra.status === 'damaged' || fromInfra.status === 'destroyed') continue;
+      if (toInfra.status === 'damaged' || toInfra.status === 'destroyed') continue;
+
+      const fromRegion = findClosestOblast(fromInfra.lat, fromInfra.lon, oblastFeatures);
+      const toRegion = findClosestOblast(toInfra.lat, toInfra.lon, oblastFeatures);
+
+      if (!fromRegion || !toRegion) continue;
+
+      const fromRegionId = fromRegion.properties.id;
+      const toRegionId = toRegion.properties.id;
+
+      // If power flows from the current powered region to an unvisited region
+      if (fromRegionId === currentRegionId && !visited.has(toRegionId)) {
+        regionsWithPower.add(toRegionId);
+        visited.add(toRegionId);
+        queue.push(toRegionId);
+      }
+
+      // If power flows to the current powered region from an unvisited region
+      if (toRegionId === currentRegionId && !visited.has(fromRegionId)) {
+        regionsWithPower.add(fromRegionId);
+        visited.add(fromRegionId);
+        queue.push(fromRegionId);
+      }
+    }
+  }
+
+  // Update hasPower for all regions
+  for (const region of regions) {
+    region.hasPower = regionsWithPower.has(region.id);
+  }
+}
+
 // ---------------------------------------------------------------------------
 
 export function buildInitialState(

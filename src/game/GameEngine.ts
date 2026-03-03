@@ -2,8 +2,13 @@ import { Application } from 'pixi.js';
 
 import { processMonthlyBudgetDistribution } from '@/game/BudgetManager';
 import { GameLoop } from '@/game/GameLoop';
-import { buildInitialState, checkCrashRecovery, loadState, restoreGameState, saveCheckpoint, saveGameState, saveState } from '@/game/GameState';
-import { generateCityPowerLines } from '@/map/CityPowerConnector';
+import { buildInitialState, calculatePowerConnectivity, checkCrashRecovery, loadState, restoreGameState, saveCheckpoint, saveGameState } from '@/game/GameState';
+import {
+  filterOutOccupiedCityConnections,
+  generateCityPowerLines,
+  getOccupiedCityIds,
+  isOccupiedCityEndpoint,
+} from '@/map/CityPowerConnector';
 import { MapRenderer } from '@/map/MapRenderer';
 import { BudgetPanel } from '@/ui/BudgetPanel';
 import { InfoPanel } from '@/ui/InfoPanel';
@@ -14,6 +19,7 @@ import type {
   FeatureCollection,
   InfrastructureObject,
   OblastFeature,
+  OccupiedZoneFeature,
   PowerLine,
   River,
 } from '@/types';
@@ -65,16 +71,28 @@ export class GameEngine {
       this._fetchJson<City[]>(`${ASSETS_BASE}cities.json`),
       this._fetchJson<River[]>(`${ASSETS_BASE}rivers.json`),
       this._fetchJson<PowerLine[]>(`${ASSETS_BASE}power_lines.json`),
-      this._fetchJson<FeatureCollection<any>>(`${ASSETS_BASE}occupied_territories.geojson`),
+      this._fetchJson<FeatureCollection<OccupiedZoneFeature>>(`${ASSETS_BASE}occupied_territories.geojson`),
     ]);
 
-    // Generate power lines connecting cities to closest power infrastructure
-    const cityPowerLines = generateCityPowerLines(cities, infrastructure, powerLines);
-    const allPowerLines = [...powerLines, ...cityPowerLines];
+    // Remove city connections in occupied zones, then generate new city connections for non-occupied cities
+    const basePowerLines = filterOutOccupiedCityConnections(powerLines, cities, occupiedZones);
+    const cityPowerLines = generateCityPowerLines(cities, infrastructure, basePowerLines, occupiedZones);
+    const occupiedCityIds = getOccupiedCityIds(cities, occupiedZones);
+    const allPowerLines = [...basePowerLines, ...cityPowerLines].filter(
+      (line) => {
+        const fromEndpoint = String(line.from);
+        const toEndpoint = String(line.to);
+        return !isOccupiedCityEndpoint(fromEndpoint, occupiedCityIds)
+          && !isOccupiedCityEndpoint(toEndpoint, occupiedCityIds);
+      },
+    );
 
     // 3. Game state
     this._state = loadState() ?? buildInitialState(oblasts.features, cities, infrastructure);
     const state = this._state;
+
+    // Calculate power connectivity based on infrastructure
+    calculatePowerConnectivity(state.regions, infrastructure, allPowerLines, oblasts.features);
 
     const mapData = {
       border,

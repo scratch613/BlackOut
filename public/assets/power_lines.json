@@ -21,11 +21,25 @@
     "status": "active"
   },
   {
-    "id": "pl_zapo_donbas",
+    "id": "pl_south_mykolaiv",
+    "from": "npp_south",
+    "to": "sub330_mykolaiv",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_zapo_pivden",
     "from": "npp_zapo",
-    "to": "sub750_donbaska",
+    "to": "sub750_pivdennoukr",
     "voltage": "750kV",
-    "status": "inactive"
+    "status": "active"
+  },
+  {
+    "id": "pl_zapo_zaporizhzhia",
+    "from": "npp_zapo",
+    "to": "sub330_zaporizhzhia",
+    "voltage": "330kV",
+    "status": "active"
   },
   {
     "id": "pl_burshtyn_zakhidna",
@@ -82,13 +96,6 @@
     "to": "sub750_pivdennoukr",
     "voltage": "750kV",
     "status": "active"
-  },
-  {
-    "id": "pl_pivden_donbaska",
-    "from": "sub750_pivdennoukr",
-    "to": "sub750_donbaska",
-    "voltage": "750kV",
-    "status": "inactive"
   },
   {
     "id": "pl_kyivska_chernihiv",
@@ -159,20 +166,6 @@
     "to": "sub330_zaporizhzhia",
     "voltage": "330kV",
     "status": "active"
-  },
-  {
-    "id": "pl_donbas_kharkiv",
-    "from": "sub750_donbaska",
-    "to": "sub330_kharkiv",
-    "voltage": "330kV",
-    "status": "inactive"
-  },
-  {
-    "id": "pl_donbas_dnipro",
-    "from": "sub750_donbaska",
-    "to": "sub330_dnipro",
-    "voltage": "330kV",
-    "status": "inactive"
   },
   {
     "id": "pl_lviv_ternopil",
@@ -474,12 +467,5 @@
     "to": "sub330_kirovohrad",
     "voltage": "chp",
     "status": "active"
-  },
-  {
-    "id": "pl_chp_mariupol",
-    "from": "chp_mariupol",
-    "to": "sub750_donbaska",
-    "voltage": "chp",
-    "status": "inactive"
   }
 ]
