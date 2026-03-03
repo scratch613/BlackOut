@@ -1,0 +1,19 @@
+- generic [ref=e2]:
+  - generic:
+    - generic:
+      - button "✕"
+  - generic [ref=e4]:
+    - generic [ref=e6]: 💰 Budget Overview
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]: Country Budget
+        - generic [ref=e10]: ₴10,000,000
+      - generic [ref=e11]:
+        - generic [ref=e12]: Regional Budgets
+        - generic [ref=e13]: ₴13,500,000
+      - generic [ref=e14]:
+        - generic [ref=e15]: Foreign Funds
+        - generic [ref=e16]: ₴0
+      - generic [ref=e17]:
+        - generic [ref=e18]: Total Available
+        - generic [ref=e19]: ₴23,500,000

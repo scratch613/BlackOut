@@ -1,0 +1,485 @@
+[
+  {
+    "id": "pl_rivne_rzheska",
+    "from": "npp_rivne",
+    "to": "sub750_rzheska",
+    "voltage": "750kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_khmel_zakhidna",
+    "from": "npp_khmel",
+    "to": "sub750_zakhidna",
+    "voltage": "750kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_south_pivden",
+    "from": "npp_south",
+    "to": "sub750_pivdennoukr",
+    "voltage": "750kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_zapo_donbas",
+    "from": "npp_zapo",
+    "to": "sub750_donbaska",
+    "voltage": "750kV",
+    "status": "inactive"
+  },
+  {
+    "id": "pl_burshtyn_zakhidna",
+    "from": "tpp_burshtyn",
+    "to": "sub750_zakhidna",
+    "voltage": "750kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_ladyzhyn_vinnytska",
+    "from": "tpp_ladyzhyn",
+    "to": "sub750_vinnytska",
+    "voltage": "750kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_trypil_kyivska",
+    "from": "tpp_trypil",
+    "to": "sub750_kyivska",
+    "voltage": "750kV",
+    "status": "damaged"
+  },
+  {
+    "id": "pl_rzheska_zakhidna",
+    "from": "sub750_rzheska",
+    "to": "sub750_zakhidna",
+    "voltage": "750kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_zakhidna_kyivska",
+    "from": "sub750_zakhidna",
+    "to": "sub750_kyivska",
+    "voltage": "750kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_kyivska_vinnytska",
+    "from": "sub750_kyivska",
+    "to": "sub750_vinnytska",
+    "voltage": "750kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_vinnytska_umanska",
+    "from": "sub750_vinnytska",
+    "to": "sub750_umanska",
+    "voltage": "750kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_umanska_pivden",
+    "from": "sub750_umanska",
+    "to": "sub750_pivdennoukr",
+    "voltage": "750kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_pivden_donbaska",
+    "from": "sub750_pivdennoukr",
+    "to": "sub750_donbaska",
+    "voltage": "750kV",
+    "status": "inactive"
+  },
+  {
+    "id": "pl_kyivska_chernihiv",
+    "from": "sub750_kyivska",
+    "to": "sub330_chernihiv",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_kyivska_zhytomyr",
+    "from": "sub750_kyivska",
+    "to": "sub330_zhytomyr",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_rzheska_rivne",
+    "from": "sub750_rzheska",
+    "to": "sub330_rivne",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_zakhidna_lviv",
+    "from": "sub750_zakhidna",
+    "to": "sub330_lviv",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_zakhidna_ternopil",
+    "from": "sub750_zakhidna",
+    "to": "sub330_ternopil",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_vinnytska_khmeln",
+    "from": "sub750_vinnytska",
+    "to": "sub330_khmelnytskyi",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_umanska_kirovohrad",
+    "from": "sub750_umanska",
+    "to": "sub330_kirovohrad",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_umanska_odesa",
+    "from": "sub750_umanska",
+    "to": "sub330_odesa",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_pivden_mykolaiv",
+    "from": "sub750_pivdennoukr",
+    "to": "sub330_mykolaiv",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_pivden_zaporizhzhia",
+    "from": "sub750_pivdennoukr",
+    "to": "sub330_zaporizhzhia",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_donbas_kharkiv",
+    "from": "sub750_donbaska",
+    "to": "sub330_kharkiv",
+    "voltage": "330kV",
+    "status": "inactive"
+  },
+  {
+    "id": "pl_donbas_dnipro",
+    "from": "sub750_donbaska",
+    "to": "sub330_dnipro",
+    "voltage": "330kV",
+    "status": "inactive"
+  },
+  {
+    "id": "pl_lviv_ternopil",
+    "from": "sub330_lviv",
+    "to": "sub330_ternopil",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_lviv_rivne",
+    "from": "sub330_lviv",
+    "to": "sub330_rivne",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_rivne_khmeln",
+    "from": "sub330_rivne",
+    "to": "sub330_khmelnytskyi",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_ternopil_khmeln",
+    "from": "sub330_ternopil",
+    "to": "sub330_khmelnytskyi",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_khmeln_zhytomyr",
+    "from": "sub330_khmelnytskyi",
+    "to": "sub330_zhytomyr",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_chernihiv_sumy",
+    "from": "sub330_chernihiv",
+    "to": "sub330_sumy",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_sumy_kharkiv",
+    "from": "sub330_sumy",
+    "to": "sub330_kharkiv",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_kharkiv_poltava",
+    "from": "sub330_kharkiv",
+    "to": "sub330_poltava",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_poltava_dnipro",
+    "from": "sub330_poltava",
+    "to": "sub330_dnipro",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_dnipro_zaporizhzhia",
+    "from": "sub330_dnipro",
+    "to": "sub330_zaporizhzhia",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_zapo_kryvyi",
+    "from": "sub330_zaporizhzhia",
+    "to": "sub330_kryvyi_rih",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_kryvyi_mykolaiv",
+    "from": "sub330_kryvyi_rih",
+    "to": "sub330_mykolaiv",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_mykolaiv_odesa",
+    "from": "sub330_mykolaiv",
+    "to": "sub330_odesa",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_odesa_kirovohrad",
+    "from": "sub330_odesa",
+    "to": "sub330_kirovohrad",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_kirovohrad_dnipro",
+    "from": "sub330_kirovohrad",
+    "to": "sub330_dnipro",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_zhytomyr_khmeln",
+    "from": "sub330_zhytomyr",
+    "to": "sub330_khmelnytskyi",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_hpp_kyiv",
+    "from": "hpp_kyiv",
+    "to": "sub750_kyivska",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_hpp_kaniv",
+    "from": "hpp_kaniv",
+    "to": "sub330_kirovohrad",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_hpp_krem",
+    "from": "hpp_krem",
+    "to": "sub330_poltava",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_hpp_dnipro",
+    "from": "hpp_dnipro",
+    "to": "sub330_zaporizhzhia",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_hpp_dnister",
+    "from": "hpp_dnister",
+    "to": "sub330_odesa",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_zmiev_kharkiv",
+    "from": "tpp_zmiev",
+    "to": "sub330_kharkiv",
+    "voltage": "330kV",
+    "status": "damaged"
+  },
+  {
+    "id": "pl_pridnip_dnipro",
+    "from": "tpp_pridnip",
+    "to": "sub330_dnipro",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_kryvyi_tpp",
+    "from": "tpp_kryvyi",
+    "to": "sub330_kryvyi_rih",
+    "voltage": "330kV",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_kyiv5",
+    "from": "chp_kyiv5",
+    "to": "sub750_kyivska",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_kyiv6",
+    "from": "chp_kyiv6",
+    "to": "sub750_kyivska",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_kharkiv5",
+    "from": "chp_kharkiv5",
+    "to": "sub330_kharkiv",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_dnipro",
+    "from": "chp_dnipro",
+    "to": "sub330_dnipro",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_odesa",
+    "from": "chp_odesa",
+    "to": "sub330_odesa",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_lviv",
+    "from": "chp_lviv",
+    "to": "sub330_lviv",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_zaporizhzhia",
+    "from": "chp_zaporizhzhia",
+    "to": "sub330_zaporizhzhia",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_kryvyi_rih",
+    "from": "chp_kryvyi_rih",
+    "to": "sub330_kryvyi_rih",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_mykolaiv",
+    "from": "chp_mykolaiv",
+    "to": "sub330_mykolaiv",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_poltava",
+    "from": "chp_poltava",
+    "to": "sub330_poltava",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_sumy",
+    "from": "chp_sumy",
+    "to": "sub330_sumy",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_chernihiv",
+    "from": "chp_chernihiv",
+    "to": "sub330_chernihiv",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_vinnytsia",
+    "from": "chp_vinnytsia",
+    "to": "sub750_vinnytska",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_zhytomyr",
+    "from": "chp_zhytomyr",
+    "to": "sub330_zhytomyr",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_rivne",
+    "from": "chp_rivne",
+    "to": "sub330_rivne",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_ternopil",
+    "from": "chp_ternopil",
+    "to": "sub330_ternopil",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_khmeln",
+    "from": "chp_khmelnytskyi",
+    "to": "sub330_khmelnytskyi",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_if",
+    "from": "chp_ivano_frankivsk",
+    "to": "sub330_lviv",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_cherkasy",
+    "from": "chp_cherkasy",
+    "to": "sub330_kirovohrad",
+    "voltage": "chp",
+    "status": "active"
+  },
+  {
+    "id": "pl_chp_mariupol",
+    "from": "chp_mariupol",
+    "to": "sub750_donbaska",
+    "voltage": "chp",
+    "status": "inactive"
+  }
+]

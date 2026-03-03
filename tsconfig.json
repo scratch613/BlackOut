@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/assets/*": ["src/assets/*"],
+      "@/scenes/*": ["src/scenes/*"],
+      "@/objects/*": ["src/objects/*"],
+      "@/types/*": ["src/types/*"],
+      "@/game/*": ["src/game/*"],
+      "@/map/*": ["src/map/*"],
+      "@/ui/*": ["src/ui/*"]
+    }
+  },
+  "include": ["src"]
+}

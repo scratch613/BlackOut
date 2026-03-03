@@ -1,0 +1,557 @@
+[
+  {
+    "id": "npp_rivne",
+    "name": "Рівненська АЕС",
+    "type": "nuclear",
+    "lat": 51.3276,
+    "lon": 25.892,
+    "capacity": 2835,
+    "status": "active"
+  },
+  {
+    "id": "npp_khmel",
+    "name": "Хмельницька АЕС",
+    "type": "nuclear",
+    "lat": 50.3013,
+    "lon": 26.6496,
+    "capacity": 2000,
+    "status": "active"
+  },
+  {
+    "id": "npp_south",
+    "name": "Південноукраїнська АЕС",
+    "type": "nuclear",
+    "lat": 47.8173,
+    "lon": 31.1738,
+    "capacity": 3000,
+    "status": "active"
+  },
+  {
+    "id": "npp_zapo",
+    "name": "Запорізька АЕС",
+    "type": "nuclear",
+    "lat": 47.5113,
+    "lon": 34.5866,
+    "capacity": 6000,
+    "status": "occupied"
+  },
+  {
+    "id": "hpp_kyiv",
+    "name": "Київська ГЕС",
+    "type": "hydro",
+    "lat": 50.5905,
+    "lon": 30.5055,
+    "capacity": 440,
+    "status": "active"
+  },
+  {
+    "id": "hpp_kaniv",
+    "name": "Канівська ГЕС",
+    "type": "hydro",
+    "lat": 49.7634,
+    "lon": 31.4655,
+    "capacity": 444,
+    "status": "active"
+  },
+  {
+    "id": "hpp_krem",
+    "name": "Кременчуцька ГЕС",
+    "type": "hydro",
+    "lat": 49.0766,
+    "lon": 33.2626,
+    "capacity": 625,
+    "status": "active"
+  },
+  {
+    "id": "hpp_dnipro",
+    "name": "ДніпроГЕС",
+    "type": "hydro",
+    "lat": 47.8705,
+    "lon": 35.0835,
+    "capacity": 1569,
+    "status": "active"
+  },
+  {
+    "id": "hpp_dnister",
+    "name": "Дністровська ГЕС",
+    "type": "hydro",
+    "lat": 48.5833,
+    "lon": 27.45,
+    "capacity": 702,
+    "status": "active"
+  },
+  {
+    "id": "tpp_burshtyn",
+    "name": "Бурштинська ТЕС",
+    "type": "thermal",
+    "lat": 49.2083,
+    "lon": 24.6661,
+    "capacity": 2300,
+    "status": "active"
+  },
+  {
+    "id": "tpp_ladyzhyn",
+    "name": "Ладижинська ТЕС",
+    "type": "thermal",
+    "lat": 48.7058,
+    "lon": 29.2272,
+    "capacity": 1800,
+    "status": "active"
+  },
+  {
+    "id": "tpp_trypil",
+    "name": "Трипільська ТЕС",
+    "type": "thermal",
+    "lat": 50.1388,
+    "lon": 30.7483,
+    "capacity": 1800,
+    "status": "damaged"
+  },
+  {
+    "id": "tpp_zmiev",
+    "name": "Зміївська ТЕС",
+    "type": "thermal",
+    "lat": 49.5933,
+    "lon": 36.5297,
+    "capacity": 2200,
+    "status": "damaged"
+  },
+  {
+    "id": "tpp_pridnip",
+    "name": "Придніпровська ТЕС",
+    "type": "thermal",
+    "lat": 48.4069,
+    "lon": 35.1325,
+    "capacity": 1765,
+    "status": "active"
+  },
+  {
+    "id": "tpp_kryvyi",
+    "name": "Криворізька ТЕС",
+    "type": "thermal",
+    "lat": 47.5447,
+    "lon": 33.6828,
+    "capacity": 2820,
+    "status": "active"
+  },
+  {
+    "id": "sub750_zakhidna",
+    "name": "ПС Західноукраїнська 750 кВ",
+    "type": "substation",
+    "lat": 49.2097,
+    "lon": 24.6543,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "750kV"
+  },
+  {
+    "id": "sub750_kyivska",
+    "name": "ПС Київська 750 кВ",
+    "type": "substation",
+    "lat": 50.2196,
+    "lon": 30.1274,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "750kV"
+  },
+  {
+    "id": "sub750_rzheska",
+    "name": "ПС Ржищівська 750 кВ",
+    "type": "substation",
+    "lat": 51.3300,
+    "lon": 25.8870,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "750kV"
+  },
+  {
+    "id": "sub750_vinnytska",
+    "name": "ПС Вінницька 750 кВ",
+    "type": "substation",
+    "lat": 49.3682,
+    "lon": 28.2810,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "750kV"
+  },
+  {
+    "id": "sub750_umanska",
+    "name": "ПС Уманська 750 кВ",
+    "type": "substation",
+    "lat": 48.7310,
+    "lon": 30.2200,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "750kV"
+  },
+  {
+    "id": "sub750_pivdennoukr",
+    "name": "ПС Південноукраїнська 750 кВ",
+    "type": "substation",
+    "lat": 47.8180,
+    "lon": 31.1750,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "750kV"
+  },
+  {
+    "id": "sub750_donbaska",
+    "name": "ПС Донбаська 750 кВ",
+    "type": "substation",
+    "lat": 48.0150,
+    "lon": 38.0200,
+    "capacity": 0,
+    "status": "occupied",
+    "voltage": "750kV"
+  },
+  {
+    "id": "sub330_kharkiv",
+    "name": "ПС Харківська 330 кВ",
+    "type": "substation",
+    "lat": 50.0780,
+    "lon": 36.1920,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_dnipro",
+    "name": "ПС Дніпровська 330 кВ",
+    "type": "substation",
+    "lat": 48.4910,
+    "lon": 35.0790,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_odesa",
+    "name": "ПС Одеська 330 кВ",
+    "type": "substation",
+    "lat": 46.4670,
+    "lon": 30.7350,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_lviv",
+    "name": "ПС Львівська 330 кВ",
+    "type": "substation",
+    "lat": 49.8380,
+    "lon": 23.9700,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_poltava",
+    "name": "ПС Полтавська 330 кВ",
+    "type": "substation",
+    "lat": 49.6060,
+    "lon": 34.5620,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_zaporizhzhia",
+    "name": "ПС Запорізька 330 кВ",
+    "type": "substation",
+    "lat": 47.8420,
+    "lon": 35.1680,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_mykolaiv",
+    "name": "ПС Миколаївська 330 кВ",
+    "type": "substation",
+    "lat": 46.9840,
+    "lon": 32.0060,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_sumy",
+    "name": "ПС Сумська 330 кВ",
+    "type": "substation",
+    "lat": 50.9190,
+    "lon": 34.7820,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_chernihiv",
+    "name": "ПС Чернігівська 330 кВ",
+    "type": "substation",
+    "lat": 51.4980,
+    "lon": 31.2940,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_zhytomyr",
+    "name": "ПС Житомирська 330 кВ",
+    "type": "substation",
+    "lat": 50.2580,
+    "lon": 28.6640,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_rivne",
+    "name": "ПС Рівненська 330 кВ",
+    "type": "substation",
+    "lat": 50.6130,
+    "lon": 26.2540,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_ternopil",
+    "name": "ПС Тернопільська 330 кВ",
+    "type": "substation",
+    "lat": 49.5620,
+    "lon": 25.6010,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_khmelnytskyi",
+    "name": "ПС Хмельницька 330 кВ",
+    "type": "substation",
+    "lat": 49.4270,
+    "lon": 26.9840,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_kirovohrad",
+    "name": "ПС Кіровоградська 330 кВ",
+    "type": "substation",
+    "lat": 48.5170,
+    "lon": 32.2730,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "sub330_kryvyi_rih",
+    "name": "ПС Криворізька 330 кВ",
+    "type": "substation",
+    "lat": 47.9130,
+    "lon": 33.3940,
+    "capacity": 0,
+    "status": "active",
+    "voltage": "330kV"
+  },
+  {
+    "id": "chp_kyiv5",
+    "name": "Київська ТЕЦ-5",
+    "type": "chp",
+    "lat": 50.5260,
+    "lon": 30.6220,
+    "capacity": 690,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_kyiv6",
+    "name": "Київська ТЕЦ-6",
+    "type": "chp",
+    "lat": 50.3930,
+    "lon": 30.6240,
+    "capacity": 630,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_kharkiv5",
+    "name": "Харківська ТЕЦ-5",
+    "type": "chp",
+    "lat": 49.9890,
+    "lon": 36.2360,
+    "capacity": 540,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_dnipro",
+    "name": "Придніпровська ТЕЦ",
+    "type": "chp",
+    "lat": 48.5050,
+    "lon": 35.0600,
+    "capacity": 420,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_odesa",
+    "name": "Одеська ТЕЦ",
+    "type": "chp",
+    "lat": 46.4430,
+    "lon": 30.7220,
+    "capacity": 330,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_lviv",
+    "name": "Львівська ТЕЦ",
+    "type": "chp",
+    "lat": 49.8030,
+    "lon": 24.0450,
+    "capacity": 247,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_zaporizhzhia",
+    "name": "Запорізька ТЕЦ",
+    "type": "chp",
+    "lat": 47.8330,
+    "lon": 35.1460,
+    "capacity": 310,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_kryvyi_rih",
+    "name": "Криворізька ТЕЦ",
+    "type": "chp",
+    "lat": 47.9220,
+    "lon": 33.3830,
+    "capacity": 280,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_mykolaiv",
+    "name": "Миколаївська ТЕЦ",
+    "type": "chp",
+    "lat": 46.9740,
+    "lon": 32.0030,
+    "capacity": 195,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_poltava",
+    "name": "Полтавська ТЕЦ",
+    "type": "chp",
+    "lat": 49.5970,
+    "lon": 34.5570,
+    "capacity": 180,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_sumy",
+    "name": "Сумська ТЕЦ",
+    "type": "chp",
+    "lat": 50.9220,
+    "lon": 34.7970,
+    "capacity": 170,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_chernihiv",
+    "name": "Чернігівська ТЕЦ",
+    "type": "chp",
+    "lat": 51.4960,
+    "lon": 31.2870,
+    "capacity": 165,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_vinnytsia",
+    "name": "Вінницька ТЕЦ",
+    "type": "chp",
+    "lat": 49.2380,
+    "lon": 28.4750,
+    "capacity": 162,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_zhytomyr",
+    "name": "Житомирська ТЕЦ",
+    "type": "chp",
+    "lat": 50.2590,
+    "lon": 28.6570,
+    "capacity": 140,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_rivne",
+    "name": "Рівненська ТЕЦ",
+    "type": "chp",
+    "lat": 50.6170,
+    "lon": 26.2540,
+    "capacity": 135,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_ternopil",
+    "name": "Тернопільська ТЕЦ",
+    "type": "chp",
+    "lat": 49.5630,
+    "lon": 25.6000,
+    "capacity": 118,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_khmelnytskyi",
+    "name": "Хмельницька ТЕЦ",
+    "type": "chp",
+    "lat": 49.4210,
+    "lon": 26.9790,
+    "capacity": 128,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_ivano_frankivsk",
+    "name": "Івано-Франківська ТЕЦ",
+    "type": "chp",
+    "lat": 48.9230,
+    "lon": 24.7100,
+    "capacity": 120,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_cherkasy",
+    "name": "Черкаська ТЕЦ",
+    "type": "chp",
+    "lat": 49.4440,
+    "lon": 32.0680,
+    "capacity": 150,
+    "status": "active",
+    "heat": true
+  },
+  {
+    "id": "chp_mariupol",
+    "name": "Маріупольська ТЕЦ",
+    "type": "chp",
+    "lat": 47.1070,
+    "lon": 37.5810,
+    "capacity": 200,
+    "status": "occupied",
+    "heat": true
+  }
+]
