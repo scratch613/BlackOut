@@ -33,7 +33,7 @@
     "lat": 47.5113,
     "lon": 34.5866,
     "capacity": 6000,
-    "status": "occupied"
+    "status": "active"
   },
   {
     "id": "hpp_kyiv",

@@ -120,6 +120,7 @@ export class MapRenderer extends Container {
   // Callbacks
   private _onRegionClick: ((id: string) => void) | null = null;
   private _onInfraClick: ((obj: InfrastructureObject) => void) | null = null;
+  private _onCityClick: ((city: City) => void) | null = null;
 
   constructor() {
     super();
@@ -150,6 +151,7 @@ export class MapRenderer extends Container {
 
   onRegionClick(cb: (id: string) => void): void { this._onRegionClick = cb; }
   onInfraClick(cb: (obj: InfrastructureObject) => void): void { this._onInfraClick = cb; }
+  onCityClick(cb: (city: City) => void): void { this._onCityClick = cb; }
 
   /** Drive electricity dot animation — call from app.ticker each frame. */
   update(ticker: Ticker): void {
@@ -394,20 +396,26 @@ export class MapRenderer extends Container {
       wrapper.x = x;
       wrapper.y = y;
 
-      // Label for tier-1 cities outside occupied territories
-      if (city.tier === 1 && !isOccupiedCity) {
+      // Label for tier-1 cities
+      if (city.tier === 1) {
         const label = new Text({
           text: city.name,
-          style: new TextStyle({ fontSize: 10, fill: 0xccddff, fontFamily: 'monospace' }),
+          style: new TextStyle({ fontSize: 10, fill: isOccupiedCity ? 0x999999 : 0xccddff, fontFamily: 'monospace' }),
         });
         label.x = radius + 3;
         label.y = -5;
         wrapper.addChild(label);
       }
 
-      // Cities are visual markers only (no interaction).
-      wrapper.eventMode = 'none';
-      wrapper.cursor = 'default';
+      // Make cities interactive (clickable for budget allocation, info, etc.)
+      wrapper.eventMode = 'static';
+      wrapper.cursor = 'pointer';
+      wrapper.on('pointerdown', (e) => {
+        e.stopPropagation();
+        this._onCityClick?.(city);
+      });
+      wrapper.on('pointerover', () => { wrapper.scale.set(1.3); });
+      wrapper.on('pointerout', () => { wrapper.scale.set(1); });
 
       this._cityLayer.addChild(wrapper);
     }

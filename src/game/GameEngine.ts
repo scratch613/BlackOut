@@ -113,6 +113,10 @@ export class GameEngine {
       panel.show({ type: 'infra', obj });
     });
 
+    map.onCityClick((city: City) => {
+      panel.show({ type: 'city', city });
+    });
+
     // 6. Game loop
     const loop = new GameLoop();
     loop.dayNumber = state.globalParams.day;
